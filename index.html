@@ -63,6 +63,24 @@
     .button-grid button:hover { background: var(--accent); color: #fff; border-color: transparent; transform: translateY(-1px); }
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
+
+    /* Hamburger menu for mobile */
+    .hamburger { display: none; width: 42px; height: 38px; border: none; background: transparent; cursor: pointer; align-items: center; justify-content: center; }
+    .hamburger .line { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; position: relative; transition: transform 0.2s, opacity 0.2s; }
+    .hamburger .line::before, .hamburger .line::after { content: ''; position: absolute; left: 0; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: transform 0.2s; }
+    .hamburger .line::before { top: -7px; }
+    .hamburger .line::after { top: 7px; }
+    nav.open .hamburger .line { transform: rotate(45deg); }
+    nav.open .hamburger .line::before { transform: rotate(90deg) translateX(0); top: 0; }
+    nav.open .hamburger .line::after { transform: rotate(90deg) translateX(0); top: 0; opacity: 0; }
+
+    /* Mobile: hide links, show hamburger */
+    @media (max-width: 980px) {
+      .nav-links { display: none; }
+      .hamburger { display: inline-flex; }
+      nav.open .nav-links { display: flex; flex-direction: column; gap: 0.5rem; position: absolute; right: 1.5rem; top: 64px; background: var(--surface); padding: 1rem; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+      .button-grid { grid-template-columns: 1fr; }
+    }
     .hero {
       padding: 5rem 0 3rem;
       display: grid;
@@ -145,6 +163,9 @@
   <div class="page">
     <nav>
       <a class="brand" href="#top">2ASA STEAM</a>
+      <button class="hamburger" aria-label="Apri menu" aria-expanded="false">
+        <span class="line"></span>
+      </button>
       <div class="nav-links">
         <a class="tab-btn active" href="#progetto" data-target="progetto">Progetto</a>
         <a class="tab-btn" href="#scienza" data-target="scienza">Scienza</a>
@@ -496,6 +517,8 @@
     const barFat = document.getElementById('barFat');
     const tabButtons = document.querySelectorAll('.tab-btn');
     const tabPanels = document.querySelectorAll('.tab-panel');
+    const nav = document.querySelector('nav');
+    const hamburger = document.querySelector('.hamburger');
 
     function setActivePanel(targetId) {
       tabPanels.forEach(panel => {
@@ -506,12 +529,25 @@
       });
     }
 
+    // Toggle menu on mobile
+    if (hamburger) {
+      hamburger.addEventListener('click', () => {
+        const isOpen = nav.classList.toggle('open');
+        hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+    }
+
     tabButtons.forEach(btn => {
       btn.addEventListener('click', event => {
         event.preventDefault();
         const target = btn.dataset.target;
         if (target) {
           setActivePanel(target);
+        }
+        // close mobile nav after selection
+        if (nav.classList.contains('open')) {
+          nav.classList.remove('open');
+          if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
         }
       });
     });
