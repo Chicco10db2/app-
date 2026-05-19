@@ -48,7 +48,21 @@
     }
     .brand { font-family: 'DM Serif Display', serif; font-size: 1.25rem; color: var(--accent); }
     .nav-links { display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.95rem; color: var(--text-muted); }
-    .nav-links a:hover { color: var(--accent); }
+    .nav-links a,
+    .nav-links button,
+    .button-grid a,
+    .button-grid button { color: inherit; text-decoration: none; }
+    .nav-links a:hover,
+    .nav-links button:hover,
+    .button-grid a:hover,
+    .button-grid button:hover { color: var(--accent); }
+    .nav-links button { background: none; border: none; padding: 0; font: inherit; cursor: pointer; }
+    .button-grid a,
+    .button-grid button { display: inline-flex; align-items: center; justify-content: center; padding: 0.85rem 1rem; border: 1px solid var(--border); border-radius: 999px; background: var(--surface); color: var(--text); font-weight: 700; transition: background 0.2s, color 0.2s, transform 0.2s; }
+    .button-grid a:hover,
+    .button-grid button:hover { background: var(--accent); color: #fff; border-color: transparent; transform: translateY(-1px); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
     .hero {
       padding: 5rem 0 3rem;
       display: grid;
@@ -132,13 +146,13 @@
     <nav>
       <a class="brand" href="#top">2ASA STEAM</a>
       <div class="nav-links">
-        <a href="#progetto">Progetto</a>
-        <a href="#scienza">Scienza</a>
-        <a href="#fisica">Fisica</a>
-        <a href="#nutri-track">Nutri-track</a>
-        <a href="#italiano">Italiano</a>
-        <a href="#codice">Codice</a>
-        <a href="#demo">Demo</a>
+        <a class="tab-btn active" href="#progetto" data-target="progetto">Progetto</a>
+        <a class="tab-btn" href="#scienza" data-target="scienza">Scienza</a>
+        <a class="tab-btn" href="#fisica" data-target="fisica">Fisica</a>
+        <a class="tab-btn" href="#nutri-track" data-target="nutri-track">Nutri-track</a>
+        <a class="tab-btn" href="#italiano" data-target="italiano">Italiano</a>
+        <a class="tab-btn" href="#codice" data-target="codice">Codice</a>
+        <a class="tab-btn" href="#demo" data-target="demo">Demo</a>
       </div>
     </nav>
 
@@ -148,8 +162,8 @@
         <h1 class="hero-title">PROJECT LAB: <span>Scienza, immagine e codice</span> nel ciclo della vita</h1>
         <p class="hero-text">Un progetto multidisciplinare originale: dalla scienza alla fisica, da Nutri-track all’italiano e relazione. Contiene la descrizione del laboratorio con il prof. Petrella, la demo interattiva e la spiegazione tecnica completa.</p>
         <div class="hero-actions">
-          <a class="btn primary" href="#demo">Vai alla demo</a>
-          <a class="btn secondary" href="#guida">Come creare</a>
+          <a class="btn primary tab-btn" href="#demo" data-target="demo">Vai alla demo</a>
+          <a class="btn secondary tab-btn" href="#guida" data-target="guida">Come creare</a>
         </div>
       </div>
       <div class="hero-card">
@@ -161,20 +175,20 @@
           <div class="chip">Layout semplice</div>
         </div>
         <div class="button-grid">
-          <a href="#progetto">Progetto</a>
-          <a href="#scienza">Scienza</a>
-          <a href="#fisica">Fisica</a>
-          <a href="#nutri-track">Nutri-track</a>
-          <a href="#italiano">Italiano</a>
-          <a href="#codice">Codice</a>
-          <a href="#demo">Demo</a>
-          <a href="#guida">Guida</a>
-          <a href="#team">Team</a>
+          <a class="tab-btn active" href="#progetto" data-target="progetto">Progetto</a>
+          <a class="tab-btn" href="#scienza" data-target="scienza">Scienza</a>
+          <a class="tab-btn" href="#fisica" data-target="fisica">Fisica</a>
+          <a class="tab-btn" href="#nutri-track" data-target="nutri-track">Nutri-track</a>
+          <a class="tab-btn" href="#italiano" data-target="italiano">Italiano</a>
+          <a class="tab-btn" href="#codice" data-target="codice">Codice</a>
+          <a class="tab-btn" href="#demo" data-target="demo">Demo</a>
+          <a class="tab-btn" href="#guida" data-target="guida">Guida</a>
+          <a class="tab-btn" href="#team" data-target="team">Team</a>
         </div>
       </div>
     </section>
 
-    <section class="section" id="progetto">
+    <section class="section tab-panel active" id="progetto">
       <div class="section-header">
         <div>
           <h2 class="section-title">Progetto e relazioni</h2>
@@ -194,7 +208,7 @@
       </div>
     </section>
 
-    <section class="section" id="scienza">
+    <section class="section tab-panel" id="scienza">
       <div class="section-header">
         <div>
           <h2 class="section-title">Scienza</h2>
@@ -214,7 +228,7 @@
       </div>
     </section>
 
-    <section class="section" id="fisica">
+    <section class="section tab-panel" id="fisica">
       <div class="section-header">
         <div>
           <h2 class="section-title">Fisica</h2>
@@ -240,7 +254,7 @@
       </div>
     </section>
 
-    <section class="section" id="nutri-track">
+    <section class="section tab-panel" id="nutri-track">
       <div class="section-header">
         <div>
           <h2 class="section-title">Nutri-track</h2>
@@ -280,7 +294,7 @@
       </div>
     </section>
 
-    <section class="section" id="italiano">
+    <section class="section tab-panel" id="italiano">
       <div class="section-header">
         <div>
           <h2 class="section-title">Italiano e relazione</h2>
@@ -329,7 +343,7 @@
       </div>
     </section>
 
-    <section class="section" id="codice">
+    <section class="section tab-panel" id="codice">
       <div class="section-header">
         <div>
           <h2 class="section-title">Parte tecnica</h2>
@@ -364,7 +378,7 @@
       </div>
     </section>
 
-    <section class="section" id="demo">
+    <section class="section tab-panel" id="demo">
       <div class="section-header">
         <div>
           <h2 class="section-title">Demo interattiva</h2>
@@ -406,7 +420,7 @@
       </div>
     </section>
 
-    <section class="section" id="guida">
+    <section class="section tab-panel" id="guida">
       <div class="section-header">
         <div>
           <h2 class="section-title">Guida: come creare una web app</h2>
@@ -442,7 +456,7 @@
       <div class="quote"><strong>Vibes coding:</strong> costruisci l’app con passi semplici, inizia dal contenuto, poi dal layout, quindi aggiungi le funzioni e infine pubblica.</div>
     </section>
 
-    <section class="section" id="team">
+    <section class="section tab-panel" id="team">
       <div class="section-header">
         <div>
           <h2 class="section-title">Team e strumenti</h2>
@@ -480,6 +494,27 @@
     const barCarbs = document.getElementById('barCarbs');
     const barProtein = document.getElementById('barProtein');
     const barFat = document.getElementById('barFat');
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+
+    function setActivePanel(targetId) {
+      tabPanels.forEach(panel => {
+        panel.classList.toggle('active', panel.id === targetId);
+      });
+      tabButtons.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.target === targetId);
+      });
+    }
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', event => {
+        event.preventDefault();
+        const target = btn.dataset.target;
+        if (target) {
+          setActivePanel(target);
+        }
+      });
+    });
 
     function calcolaMB(gender, weight, height, age) {
       if (gender === 'male') {
