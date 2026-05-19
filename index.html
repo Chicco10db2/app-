@@ -46,7 +46,7 @@
       backdrop-filter: blur(12px);
       z-index: 10;
     }
-    .brand { font-family: 'DM Serif Display', serif; font-size: 1.25rem; color: var(--accent); }
+    .brand { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--text-muted); font-weight: 500; letter-spacing: 0.02em; }
     .nav-links { display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.95rem; color: var(--text-muted); }
     .nav-links a,
     .nav-links button,
@@ -65,21 +65,27 @@
     .tab-panel.active { display: block; }
 
     /* Hamburger menu (visible on all devices) */
-    .hamburger { display: inline-flex; width: 42px; height: 38px; border: none; background: transparent; cursor: pointer; align-items: center; justify-content: center; }
-    .hamburger .line { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; position: relative; transition: transform 0.2s, opacity 0.2s; }
-    .hamburger .line::before, .hamburger .line::after { content: ''; position: absolute; left: 0; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: transform 0.2s; }
-    .hamburger .line::before { top: -7px; }
-    .hamburger .line::after { top: 7px; }
-    nav.open .hamburger .line { transform: rotate(45deg); }
-    nav.open .hamburger .line::before { transform: rotate(90deg) translateX(0); top: 0; }
-    nav.open .hamburger .line::after { transform: rotate(90deg) translateX(0); top: 0; opacity: 0; }
+    .hamburger { display: inline-flex; width: 44px; height: 40px; border: none; background: transparent; cursor: pointer; align-items: center; justify-content: center; padding: 6px; }
+    .hamburger .line { display: block; width: 24px; height: 2px; background: var(--text); border-radius: 2px; position: relative; transition: transform 0.28s cubic-bezier(.2,.9,.3,1), background 0.2s; }
+    .hamburger .line::before, .hamburger .line::after { content: ''; position: absolute; left: 0; width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: transform 0.28s cubic-bezier(.2,.9,.3,1), opacity 0.2s; }
+    .hamburger .line::before { top: -8px; }
+    .hamburger .line::after { top: 8px; }
+    nav.open .hamburger .line { background: transparent; }
+    nav.open .hamburger .line::before { transform: translateY(8px) rotate(45deg); }
+    nav.open .hamburger .line::after { transform: translateY(-8px) rotate(-45deg); }
 
     /* Mobile: hide links, show hamburger */
     @media (max-width: 980px) {
       .nav-links { display: none; }
-      nav.open .nav-links { display: flex; flex-direction: column; gap: 0.5rem; position: absolute; right: 1.5rem; top: 64px; background: var(--surface); padding: 1rem; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border); }
       .button-grid { grid-template-columns: 1fr; }
     }
+
+    /* Fullscreen overlay panel for the mobile dropdown */
+    .nav-panel { display: none; }
+    nav.open .nav-panel { display: flex; position: fixed; inset: 0; align-items: center; justify-content: center; background: rgba(11,12,10,0.48); z-index: 40; }
+    .nav-panel-inner { width: min(420px, 92%); background: var(--surface); border-radius: 14px; padding: 1.2rem 1.25rem; box-shadow: 0 24px 60px rgba(23,28,25,0.28); border: 1px solid var(--border); display: grid; gap: 0.6rem; }
+    .nav-panel-inner a { display: block; padding: 0.85rem 1rem; border-radius: 10px; color: var(--text); font-weight: 700; }
+    .nav-panel-inner a:hover { background: var(--accent); color: #fff; }
     .hero {
       padding: 5rem 0 3rem;
       display: grid;
@@ -173,6 +179,19 @@
         <a class="tab-btn" href="#italiano" data-target="italiano">Italiano</a>
         <a class="tab-btn" href="#codice" data-target="codice">Codice</a>
         <a class="tab-btn" href="#demo" data-target="demo">Demo</a>
+      </div>
+      <div class="nav-panel" aria-hidden="true">
+        <div class="nav-panel-inner">
+          <a class="tab-btn" href="#progetto" data-target="progetto">Progetto</a>
+          <a class="tab-btn" href="#scienza" data-target="scienza">Scienza</a>
+          <a class="tab-btn" href="#fisica" data-target="fisica">Fisica</a>
+          <a class="tab-btn" href="#nutri-track" data-target="nutri-track">Nutri-track</a>
+          <a class="tab-btn" href="#italiano" data-target="italiano">Italiano</a>
+          <a class="tab-btn" href="#codice" data-target="codice">Codice</a>
+          <a class="tab-btn" href="#demo" data-target="demo">Demo</a>
+          <a class="tab-btn" href="#guida" data-target="guida">Guida</a>
+          <a class="tab-btn" href="#team" data-target="team">Team</a>
+        </div>
       </div>
     </nav>
 
@@ -528,11 +547,15 @@
       });
     }
 
-    // Toggle menu on mobile
+    // Toggle menu (overlay) on all devices
+    const navPanel = document.querySelector('.nav-panel');
     if (hamburger) {
       hamburger.addEventListener('click', () => {
         const isOpen = nav.classList.toggle('open');
         hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        if (navPanel) {
+          navPanel.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+        }
       });
     }
 
@@ -543,10 +566,11 @@
         if (target) {
           setActivePanel(target);
         }
-        // close mobile nav after selection
+        // close overlay nav after selection
         if (nav.classList.contains('open')) {
           nav.classList.remove('open');
           if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
+          if (navPanel) navPanel.setAttribute('aria-hidden', 'true');
         }
       });
     });
